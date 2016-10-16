@@ -61,9 +61,10 @@ angular.module('devrant.controllers', [])
         isLoading: true
     };
     $scope.update = () => {
-        Rants.getOne($stateParams.id, (rant) => {
+        Rants.getOne($stateParams.id, (data) => {
             $scope.data.isLoading = false;
-            $scope.data.rant = rant;
+            $scope.data.rant = data.rant;
+            $scope.data.comments = data.comments;
             $scope.$broadcast('scroll.refreshComplete');
         });
     };

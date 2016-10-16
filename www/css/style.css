@@ -1,1 +1,54 @@
 /* Empty. Add your own CSS if you like */
+
+.vote {
+    border-radius: 50%;
+    color: #FFF;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    font-family: Monospace;
+    background: #CCC;
+}
+
+.score {
+    padding: 5px 0;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.vote.voted.plus {
+    background: #5A5;
+}
+
+.vote.voted.minus {
+    background: #A55;
+}
+
+.responsive-image {
+    max-width: 100%;
+    height: auto;
+}
+
+.responsive-image-stretch {
+    width: 100%;
+    height: auto;
+}
+
+.user-avatar {
+    border-radius: 50%;
+    max-width: 100%;
+    height: auto;
+}
+
+.user-score {
+    background: #333;
+    color: #FFF;
+    font-weight: bold;
+    padding: 4px;
+    font-size: 12px;
+}

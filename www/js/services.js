@@ -37,7 +37,7 @@ angular.module('devrant.services', [])
         },
         getOne: (id, callback) => {
             DevRantApi.request('GET', '/devrant/rants/' + id, {}, (data) => {
-                callback(data.rant);
+                callback(data);
             });
         }
     };

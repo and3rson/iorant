@@ -1,26 +1,32 @@
-<ion-view view-title="Chats">
-  <ion-content>
-    <ion-refresher pulling-text="Refreshing..." on-refresh="refresh()">
-    </ion-refresher>
-    <div class="padding" ng-if="data.isLoading">
-      <ion-spinner style="display: block; text-align: center"></ion-spinner>
-    </div>
-    <ion-list>
-      <ion-item class="item-icon-right" ng-repeat="rant in data.rants" type="item-text-wrap" href="#/rants/{{rant.id}}">
-        <!-- <img ng-src="{{  }}"> -->
-        <h2>{{rant.score}}</h2>
-        <h2>{{rant.text}}</h2>
-        <p>{{chat.lastText}}</p>
-        <i class="icon ion-chevron-right icon-accessory"></i>
+<ion-view view-title="Rants">
+    <ion-content>
+        <ion-refresher pulling-text="Pull to refresh" on-refresh="refresh()">
+        </ion-refresher>
+        <div class="padding" ng-if="data.isLoading">
+            <ion-spinner style="display: block; text-align: center"></ion-spinner>
+        </div>
+        <ion-list>
+            <ion-item class="item-icon-right item-text-wrap" ng-repeat="rant in data.rants" type="item-text-wrap" href="#/rants/{{rant.id}}">
+                <!-- <img ng-src="{{  }}"> -->
+                <div class="row">
+                    <div class="col col-20 col-top" style="text-align: center">
+                        <a href="#" class="vote plus">++</a>
+                        <div class="score">{{rant.score}}</div>
+                        <a href="#" class="vote minus">--</a>
+                    </div>
+                    <div class="col col col-top">
+                        <div class="--padding">
+                            <p>{{rant.text}}</p>
+                            <img ng-if="rant.attached_image" src="{{rant.attached_image.url}}" class="responsive-image-stretch" />
+                        </div>
+                    </div>
+                </div>
+                <!-- <i class="icon ion-chevron-right icon-accessory"></i> -->
 
-        <ion-option-button class="button-assertive" ng-click="remove(chat)">
-          Delete
-        </ion-option-button>
-      </ion-item>
-    </ion-list>
-    <!-- <ion-button>Asd</ion-button> -->
-<!--     <div class="padding">
-      <button class="button button-assertive">asd</button>
-    </div>
- -->  </ion-content>
+<!--                 <ion-option-button class="button-assertive" ng-click="remove(rant)">
+                    Delete
+                </ion-option-button>
+ -->            </ion-item>
+        </ion-list>
+    </ion-content>
 </ion-view>
