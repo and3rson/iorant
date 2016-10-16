@@ -39,6 +39,10 @@ angular.module('devrant', ['ionic', 'ionic-material', 'ionic-toast', 'devrant.co
         templateUrl: 'templates/rant.html',
         controller: 'RantController'
     })
+    .state('about', {
+        url: '/about',
+        templateUrl: 'templates/about.html'
+    })
     ;
     $urlRouterProvider.otherwise('/feed');
 })

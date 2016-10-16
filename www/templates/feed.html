@@ -10,14 +10,14 @@
                 <!-- <img ng-src="{{  }}"> -->
                 <div class="row">
                     <div class="col col-20 col-top" style="text-align: center">
-                        <a href="#" class="vote plus">++</a>
+                        <a class="vote plus {{rant.vote_state == 1 ? 'voted' : ''}}" ng-click="vote(rant, rant.vote_state ? 0 : 1)">++</a>
                         <div class="score">{{rant.score}}</div>
-                        <a href="#" class="vote minus">--</a>
+                        <a class="vote minus {{rant.vote_state == -1 ? 'voted' : ''}}" ng-click="vote(rant, rant.vote_state ? 0 : -1)">--</a>
                     </div>
                     <div class="col col col-top">
                         <div class="--padding">
                             <p>{{rant.text}}</p>
-                            <img ng-if="rant.attached_image" src="{{rant.attached_image.url}}" class="responsive-image-stretch" />
+                            <img ng-if="rant.attached_image" ng-src="{{rant.attached_image.url}}" class="responsive-image-stretch" />
                         </div>
                     </div>
                 </div>

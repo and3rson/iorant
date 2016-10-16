@@ -1,76 +1,73 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title></title>
-
-    <link rel="manifest" href="manifest.json">
-
-    <!-- un-comment this code to enable service worker
-    <script>
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('service-worker.js')
-          .then(() => console.log('service worker installed'))
-          .catch(err => console.log('Error', err));
-      }
-    </script>-->
-
-    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-    <link href="lib/ionic-material/dist/ionic.material.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-
-
-    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
-    <link href="css/ionic.app.css" rel="stylesheet">
-    -->
-
-    <!-- ionic/angularjs js -->
-    <script src="lib/ionic/js/ionic.bundle.js"></script>
-    <script src="lib/ionic-material/dist/ionic.material.min.js"></script>
-
-    <!-- ngStorage -->
-    <script src="lib/ngstorage/ngStorage.min.js"></script>
-
-    <!-- toast -->
-    <script src="lib/ionic-toast/dist/ionic-toast.bundle.min.js"></script>
-
-    <!-- cordova script (this will be a 404 during development) -->
-    <script src="cordova.js"></script>
-
-    <!-- your app's js -->
-    <script src="js/app.js"></script>
-    <script src="js/controllers.js"></script>
-    <script src="js/services.js"></script>
-  </head>
-  <body ng-app="devrant">
-    <!--
-      The nav bar that will be updated as we navigate between views.
-    -->
-    <ion-side-menus>
-      <ion-side-menu side="left">
-        <ion-list>
-          <ion-item menu-close href="#/feed">Feed</ion-item>
-          <ion-item menu-close href="#/login">Log in</ion-item>
-        </ion-list>
-      </ion-side-menu>
-      <ion-side-menu-content>
-      <!-- Main content, usually <ion-nav-view> -->
-
-        <ion-nav-bar class="bar-dark" ng-controller="NavController">
-          <ion-nav-buttons side="left">
-            <button menu-toggle="left" class="button button-icon icon ion-navicon" ng-click="toggleLeft()"></button>
-          </ion-nav-buttons>
-          <ion-nav-back-button>
-          </ion-nav-back-button>
-        </ion-nav-bar>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+        <title></title>
+        <link rel="manifest" href="manifest.json">
+        <!-- un-comment this code to enable service worker
+            <script>
+              if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('service-worker.js')
+                  .then(() => console.log('service worker installed'))
+                  .catch(err => console.log('Error', err));
+              }
+            </script>-->
+        <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+        <link href="lib/ionic-material/dist/ionic.material.min.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+        <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+            <link href="css/ionic.app.css" rel="stylesheet">
+            -->
+        <!-- ionic/angularjs js -->
+        <script src="lib/ionic/js/ionic.bundle.js"></script>
+        <script src="lib/ionic-material/dist/ionic.material.min.js"></script>
+        <!-- ngStorage -->
+        <script src="lib/ngstorage/ngStorage.min.js"></script>
+        <!-- toast -->
+        <script src="lib/ionic-toast/dist/ionic-toast.bundle.min.js"></script>
+        <!-- cordova script (this will be a 404 during development) -->
+        <script src="cordova.js"></script>
+        <!-- your app's js -->
+        <script src="js/app.js"></script>
+        <script src="js/controllers.js"></script>
+        <script src="js/services.js"></script>
+    </head>
+    <body ng-app="devrant">
         <!--
-          The views will be rendered in the <ion-nav-view> directive below
-          Templates are in the /templates folder (but you could also
-          have templates inline in this html file if you'd like).
-        -->
-        <ion-nav-view></ion-nav-view>
-      </ion-side-menu-content>
-    </ion-side-menus>
-  </body>
+            The nav bar that will be updated as we navigate between views.
+            -->
+        <ion-side-menus ng-controller="NavController">
+            <ion-side-menu side="left">
+<!--                 <div class="bar bar-dark bar-header">
+                    <div class="title title-left header-item">
+                        ioRant
+                    </div>
+                </div>
+ -->
+                <ion-list>
+                    <ion-item menu-close href="#/feed">Feed</ion-item>
+                    <ion-item menu-close href="#/login" ng-if="!data.isAuthorized">Log in</ion-item>
+                    <ion-item menu-close ng-click="logout()" ng-if="data.isAuthorized">Log out</ion-item>
+                    <ion-item menu-close href="#/about">About</ion-item>
+                </ion-list>
+            </ion-side-menu>
+            <ion-side-menu-content>
+                <!-- Main content, usually <ion-nav-view> -->
+                <ion-nav-bar class="bar-dark">
+                    <ion-nav-buttons side="left">
+                        <button menu-toggle="left" class="button button-icon icon ion-navicon" ng-click="toggleLeft()"></button>
+                    </ion-nav-buttons>
+                    <ion-nav-back-button>
+                    </ion-nav-back-button>
+                </ion-nav-bar>
+                <!--
+                    The views will be rendered in the <ion-nav-view> directive below
+                    Templates are in the /templates folder (but you could also
+                    have templates inline in this html file if you'd like).
+                    -->
+                <ion-nav-view></ion-nav-view>
+            </ion-side-menu-content>
+        </ion-side-menus>
+    </body>
 </html>

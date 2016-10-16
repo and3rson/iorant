@@ -1,14 +1,36 @@
 angular.module('devrant.controllers', [])
 
-.controller('NavController', function($scope, $ionicSideMenuDelegate) {
+.controller('NavController', function($scope, $state, $rootScope, $ionicSideMenuDelegate, $ionicPopup, $ionicHistory, Auth) {
+    $scope.data = {
+        isAuthorized: false
+    };
     $scope.toggleLeft = function() {
         $ionicSideMenuDelegate.toggleLeft();
     };
+    $rootScope.$on('auth.stateChanged', (authorized) => {
+        $scope.data.isAuthorized = Auth.isAuthorized();
+    });
+    $scope.logout = function() {
+        $ionicPopup.confirm({
+            title: 'Log out',
+            template: 'Are you sure you want to log out?\nThere are still more demons to toast!'
+        }).then((res) => {
+            if (res) {
+                Auth.logout();
+                $ionicHistory.nextViewOptions({
+                    disableBack: true
+                });
+                $state.go('feed');
+            }
+        });
+    };
+    $scope.data.isAuthorized = Auth.isAuthorized();
 })
 
-.controller('FeedController', function($scope, Rants) {
+.controller('FeedController', function($scope, Auth, Rants) {
     $scope.data = {
-        isLoading: true
+        isLoading: true,
+        rants: []
     };
     $scope.update = () => {
         Rants.getAll((rants) => {
@@ -17,38 +39,34 @@ angular.module('devrant.controllers', [])
             $scope.$broadcast('scroll.refreshComplete');
         });
     };
+    $scope.vote = (rant, score) => {
+        Auth.assert(() => {
+            Rants.voteRant(rant.id, score, (data) => {
+                console.log(data);
+                $scope.data.rants.forEach((other, i) => {
+                    if (other.id == data.rant.id) {
+                        $scope.data.rants[i] = data.rant;
+                    }
+                })
+                // $scope.data.rants[0] = data.rant;
+                // console.log(data);
+            })
+        });
+    };
     $scope.update();
     $scope.refresh = () => {
         $scope.update();
     };
-    // $scope.chats = [
-    //     {
-    //         id: 0,
-    //         name: 'Ben Sparrow',
-    //         lastText: 'You on your way?',
-    //         face: 'img/ben.png'
-    //     },
-    //     {
-    //         id: 0,
-    //         name: 'Ben Sparrow',
-    //         lastText: 'You on your way?',
-    //         face: 'img/ben.png'
-    //     },
-    //     {
-    //         id: 0,
-    //         name: 'Ben Sparrow',
-    //         lastText: 'You on your way?',
-    //         face: 'img/ben.png'
-    //     }
-    // ];
 })
 
-.controller('LoginController', function($scope, $state, Auth, ionicToast) {
-    // $scope.username = 'asd';
+.controller('LoginController', function($scope, $state, $ionicHistory, Auth, ionicToast) {
     $scope.form = {};
     $scope.login = () => {
         Auth.login($scope.form.username, $scope.form.password, () => {
             ionicToast.show('Welcome!', 'bottom', true, 2500);
+            $ionicHistory.nextViewOptions({
+                disableBack: true
+            });
             $state.go('feed');
         }, (error) => {
             ionicToast.show(error, 'bottom', true, 2500);
@@ -56,7 +74,7 @@ angular.module('devrant.controllers', [])
     };
 })
 
-.controller('RantController', function($scope, $stateParams, Rants) {
+.controller('RantController', function($scope, $stateParams, Auth, Rants) {
     $scope.data = {
         isLoading: true
     };
@@ -68,33 +86,15 @@ angular.module('devrant.controllers', [])
             $scope.$broadcast('scroll.refreshComplete');
         });
     };
+    $scope.vote = (score) => {
+        Auth.assert(() => {
+            Rants.voteRant($stateParams.id, score, (data) => {
+                $scope.data.rant = data.rant;
+            })
+        });
+    };
     $scope.update();
     $scope.refresh = () => {
         $scope.update();
     };
 })
-
-.controller('ChatsCtrl', function($scope, Chats) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
-
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  };
-})
-
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
-})
-
-.controller('AccountCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
-  };
-});

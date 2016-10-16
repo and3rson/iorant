@@ -1,22 +1,22 @@
-<ion-view view-title="Chats">
+<ion-view view-title="Rant">
     <ion-content>
         <ion-refresher pulling-text="Pull to refresh" on-refresh="refresh()">
         </ion-refresher>
         <div class="padding" ng-if="data.isLoading">
             <ion-spinner style="display: block; text-align: center"></ion-spinner>
         </div>
-        <div class="--padding">
+        <div class="--padding" ng-if="!data.isLoading">
             <div class="row">
                 <div class="col col-20 col-top" style="text-align: center">
-                    <a href="#" class="vote plus">++</a>
+                    <a class="vote plus {{data.rant.vote_state == 1 ? 'voted' : ''}}" ng-click="vote(data.rant.vote_state ? 0 : 1)">++</a>
                     <div class="score">{{data.rant.score}}</div>
-                    <a href="#" class="vote minus">--</a>
+                    <a class="vote minus {{data.rant.vote_state == -1 ? 'voted' : ''}}" ng-click="vote(data.rant.vote_state ? 0 : -1)">--</a>
                 </div>
                 <div class="col col col-top">
                     <div class="--padding">
                         <div class="row no-padding">
                             <div class="col col-20">
-                                <img class="user-avatar" ng-src="https://avatars.devrant.io/{{data.rant.user_avatar.i}}" />
+                                <img class="user-avatar" ng-src="{{comment.user_avatar.i ? 'https://avatars.devrant.io/' + comment.user_avatar.i : 'img/icon.png'}}" />
                             </div>
                             <div class="col col-80">
                                 <div>
@@ -29,26 +29,36 @@
                         </div>
 
                         <p>{{data.rant.text}}</p>
-                        <img ng-if="data.rant.attached_image" src="{{data.rant.attached_image.url}}" class="responsive-image-stretch" />
+                        <img ng-if="data.rant.attached_image" ng-src="{{data.rant.attached_image.url}}" class="responsive-image-stretch" />
                     </div>
                 </div>
             </div>
 
             <div class="list">
-                <div class="item" ng-repeat="comment in data.comments" style="padding-top: 0; padding-bottom: 0">
+                <div class="item item-text-wrap" ng-repeat="comment in data.comments" style="padding-top: 0; padding-bottom: 0">
                     <div class="row">
-                        <div class="col col-20">
-                            <img class="user-avatar" ng-src="https://avatars.devrant.io/{{comment.user_avatar.i}}" />
+                        <div class="col col-20 col-top col-offset-10" style="text-align: center">
+                            <a href="#" class="vote plus">++</a>
+                            <div class="score">{{data.rant.score}}</div>
+                            <a href="#" class="vote minus">--</a>
                         </div>
-                        <div class="col">
-                            <div>
-                                {{comment.user_username}}
-                                <span class="user-score">
-                                    {{data.rant.user_score}}
-                                </span>
+                        <div class="col col-70">
+                            <div class="row no-padding">
+                                <div class="col col-20">
+                                    <img class="user-avatar" ng-src="{{comment.user_avatar.i ? 'https://avatars.devrant.io/' + comment.user_avatar.i : 'img/icon.png'}}" />
+                                </div>
+                                <div class="col col-80">
+                                    <div>
+                                        {{comment.user_username}}
+                                    </div>
+                                    <span class="user-score">
+                                        {{data.rant.user_score}}
+                                    </span>
+                                </div>
                             </div>
-
-                            {{comment.body}}
+                            <p>
+                                {{comment.body}}
+                            </p>
                         </div>
                     </div>
                 </div>

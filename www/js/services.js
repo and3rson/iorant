@@ -1,10 +1,24 @@
 angular.module('devrant.services', [])
 .factory('DevRantApi', ($http, ionicToast) => {
-    var baseUrl = '/api';
+    // var baseUrl = '/api';
+    if (window.location.hostname == 'localhost') {
+        var baseUrl = '/api';
+    } else {
+        var baseUrl = 'https://www.devrant.io/api';
+    }
+    var authToken = null;
     return {
+        setAuthToken: (newAuthToken) => {
+            authToken = newAuthToken;
+        },
         request: (method, url, data, callback, errorCallback) => {
             data = data || {};
             data.app = 3;
+            if (authToken) {
+                data.token_key = authToken.key;
+                data.token_id = authToken.id;
+                data.user_id = authToken.user_id;
+            }
             $http({
                 method: method,
                 url: baseUrl + url + '?app=3',
@@ -39,10 +53,18 @@ angular.module('devrant.services', [])
             DevRantApi.request('GET', '/devrant/rants/' + id, {}, (data) => {
                 callback(data);
             });
+        },
+        voteRant: (id, vote, callback) => {
+            DevRantApi.request('POST', '/devrant/rants/' + id + '/vote', {
+                vote: vote
+            }, (data) => {
+                callback(data);
+            });
         }
     };
 })
-.factory('Auth', ($http, $localStorage, $rootScope, DevRantApi) => {
+.factory('Auth', ($http, $state, $localStorage, $rootScope, $ionicPopup, DevRantApi) => {
+    DevRantApi.setAuthToken($localStorage.authToken);
     return {
         login: (username, password, callback, errorCallback) => {
             DevRantApi.request('POST', '/users/auth-token', {
@@ -50,60 +72,47 @@ angular.module('devrant.services', [])
                 password: password
             }, (data) => {
                 $localStorage.authToken = data.auth_token;
+                $rootScope.$broadcast('auth.stateChanged');
+                DevRantApi.setAuthToken(data.auth_token);
                 callback();
             }, (errorData) => {
                 errorCallback(errorData.data.error || errorData.data.message);
             })
+        },
+        logout: () => {
+            $localStorage.authToken = null;
+            $rootScope.$emit('auth.stateChanged');
+            DevRantApi.setAuthToken(null);
+        },
+        isAuthorized: () => {
+            return !!$localStorage.authToken;
+        },
+        getAuthToken: () => {
+            return $localStorage.authToken;
+        },
+        assert: (callback) => {
+            if ($localStorage.authToken) {
+                callback();
+            } else {
+                $ionicPopup.confirm({
+                    title: 'Authorization required',
+                    template: 'You need to be authorized to perform this action.'
+                }).then((res) => {
+                    if (res) {
+                        $state.go('login');
+                    }
+                });
+            }
         }
     }
 })
-;
+// .factory('Vote', ($http, Auth) => {
+//     return {
+//         vote: (object, id) => {
+//             if (Auth.isAuthorized()) {
 
-// .factory('Chats', function() {
-//   // Might use a resource here that returns a JSON array
-
-//   // Some fake testing data
-//   var chats = [{
-//     id: 0,
-//     name: 'Ben Sparrow',
-//     lastText: 'You on your way?',
-//     face: 'img/ben.png'
-//   }, {
-//     id: 1,
-//     name: 'Max Lynx',
-//     lastText: 'Hey, it\'s me',
-//     face: 'img/max.png'
-//   }, {
-//     id: 2,
-//     name: 'Adam Bradleyson',
-//     lastText: 'I should buy a boat',
-//     face: 'img/adam.jpg'
-//   }, {
-//     id: 3,
-//     name: 'Perry Governor',
-//     lastText: 'Look at my mukluks!',
-//     face: 'img/perry.png'
-//   }, {
-//     id: 4,
-//     name: 'Mike Harrington',
-//     lastText: 'This is wicked good ice cream.',
-//     face: 'img/mike.png'
-//   }];
-
-//   return {
-//     all: function() {
-//       return chats;
-//     },
-//     remove: function(chat) {
-//       chats.splice(chats.indexOf(chat), 1);
-//     },
-//     get: function(chatId) {
-//       for (var i = 0; i < chats.length; i++) {
-//         if (chats[i].id === parseInt(chatId)) {
-//           return chats[i];
+//             }
 //         }
-//       }
-//       return null;
 //     }
-//   };
-// });
+// })
+;
