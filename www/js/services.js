@@ -19,9 +19,17 @@ angular.module('devrant.services', [])
                 data.token_id = authToken.id;
                 data.user_id = authToken.user_id;
             }
+            var query = '';
+            if (method == 'GET' || method == 'DELETE') {
+                pairs = [];
+                Object.keys(data).forEach((key) => {
+                    pairs.push(key + '=' + encodeURIComponent(data[key]));
+                });
+                query = pairs.join('&');
+            }
             $http({
                 method: method,
-                url: baseUrl + url + '?app=3',
+                url: baseUrl + url + '?' + query,
                 data: data,
                 // headers : {
                 //    'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -44,8 +52,9 @@ angular.module('devrant.services', [])
 })
 .factory('Rants', ($http, DevRantApi) => {
     return {
-        getAll: (callback) => {
-            DevRantApi.request('GET', '/devrant/rants', {}, (data) => {
+        getAll: (callback, skip) => {
+            skip = skip || 0;
+            DevRantApi.request('GET', '/devrant/rants', {skip: skip}, (data) => {
                 callback(data.rants);
             });
         },

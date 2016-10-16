@@ -30,18 +30,29 @@ angular.module('devrant.controllers', [])
 })
 
 .controller('FeedController', function($scope, Auth, Rants) {
+    var skip = 0;
     $scope.data = {
         isLoading: true,
         rants: []
     };
     $scope.update = () => {
+        skip = 0;
         Rants.getAll((rants) => {
             $scope.data.isLoading = false;
             $scope.data.rants = rants;
             $scope.$broadcast('scroll.refreshComplete');
+            skip = 20;
         });
     };
-    $scope.update();
+    $scope.loadMore = (data) => {
+        Rants.getAll((rants) => {
+            Array.prototype.push.apply($scope.data.rants, rants);
+            $scope.$broadcast('scroll.infiniteScrollComplete');
+            $scope.data.isLoading = false;
+        }, skip);
+        skip += 20;
+    };
+    // $scope.update();
     $scope.refresh = () => {
         $scope.update();
     };
@@ -85,7 +96,6 @@ angular.module('devrant.controllers', [])
     $scope.init = function(type, object) {
         $scope.voteObjectData.type = type;
         $scope.voteObjectData.object = object;
-        console.log(type, object);
     }
     $scope.vote = (score) => {
         Auth.assert(() => {
