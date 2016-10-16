@@ -42,7 +42,6 @@ angular.module('devrant.controllers', [])
     $scope.vote = (rant, score) => {
         Auth.assert(() => {
             Rants.voteRant(rant.id, score, (data) => {
-                console.log(data);
                 $scope.data.rants.forEach((other, i) => {
                     if (other.id == data.rant.id) {
                         $scope.data.rants[i] = data.rant;
@@ -90,6 +89,17 @@ angular.module('devrant.controllers', [])
         Auth.assert(() => {
             Rants.voteRant($stateParams.id, score, (data) => {
                 $scope.data.rant = data.rant;
+            })
+        });
+    };
+    $scope.voteComment = (comment, score) => {
+        Auth.assert(() => {
+            Rants.voteComment(comment.id, score, (data) => {
+                $scope.data.comments.forEach((other, i) => {
+                    if (other.id == data.comment.id) {
+                        $scope.data.comments[i] = data.comment;
+                    }
+                })
             })
         });
     };

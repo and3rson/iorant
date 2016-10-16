@@ -38,9 +38,9 @@
                 <div class="item item-text-wrap" ng-repeat="comment in data.comments" style="padding-top: 0; padding-bottom: 0">
                     <div class="row">
                         <div class="col col-20 col-top col-offset-10" style="text-align: center">
-                            <a href="#" class="vote plus">++</a>
-                            <div class="score">{{data.rant.score}}</div>
-                            <a href="#" class="vote minus">--</a>
+                            <a class="vote plus {{comment.vote_state == 1 ? 'voted' : ''}}" ng-click="voteComment(comment, comment.vote_state ? 0 : 1)">++</a>
+                            <div class="score">{{comment.score}}</div>
+                            <a class="vote minus {{comment.vote_state == -1 ? 'voted' : ''}}" ng-click="voteComment(comment, comment.vote_state ? 0 : -1)">--</a>
                         </div>
                         <div class="col col-70">
                             <div class="row no-padding">

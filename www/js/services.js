@@ -60,6 +60,13 @@ angular.module('devrant.services', [])
             }, (data) => {
                 callback(data);
             });
+        },
+        voteComment: (id, vote, callback) => {
+            DevRantApi.request('POST', '/comments/' + id + '/vote', {
+                vote: vote
+            }, (data) => {
+                callback(data);
+            });
         }
     };
 })
