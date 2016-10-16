@@ -1,0 +1,26 @@
+<ion-view view-title="Chats">
+  <ion-content>
+    <ion-refresher pulling-text="Refreshing..." on-refresh="refresh()">
+    </ion-refresher>
+    <div class="padding" ng-if="data.isLoading">
+      <ion-spinner style="display: block; text-align: center"></ion-spinner>
+    </div>
+    <ion-list>
+      <ion-item class="item-icon-right" ng-repeat="rant in data.rants" type="item-text-wrap" href="#/rants/{{rant.id}}">
+        <!-- <img ng-src="{{  }}"> -->
+        <h2>{{rant.score}}</h2>
+        <h2>{{rant.text}}</h2>
+        <p>{{chat.lastText}}</p>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+
+        <ion-option-button class="button-assertive" ng-click="remove(chat)">
+          Delete
+        </ion-option-button>
+      </ion-item>
+    </ion-list>
+    <!-- <ion-button>Asd</ion-button> -->
+<!--     <div class="padding">
+      <button class="button button-assertive">asd</button>
+    </div>
+ -->  </ion-content>
+</ion-view>

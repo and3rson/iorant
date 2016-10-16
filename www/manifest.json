@@ -1,0 +1,11 @@
+{
+  "name": "DevRant",
+  "short_name": "DevRant (unofficial)",
+  "start_url": "index.html",
+  "display": "standalone",
+  "icons": [{
+    "src": "icon.png",
+    "sizes": "512x512",
+    "type": "image/png"
+  }]
+}
