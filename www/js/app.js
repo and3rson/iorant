@@ -43,6 +43,11 @@ angular.module('devrant', ['ionic', 'ionic-material', 'ionic-toast', 'devrant.co
         url: '/about',
         templateUrl: 'templates/about.html'
     })
+    .state('profile', {
+        url: '/profile/:id',
+        templateUrl: 'templates/profile.html',
+        controller: 'ProfileController'
+    })
     ;
     $urlRouterProvider.otherwise('/feed');
 })

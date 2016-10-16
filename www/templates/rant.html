@@ -12,19 +12,21 @@
                 </div>
                 <div class="col col col-top">
                     <div class="--padding">
-                        <div class="row no-padding">
-                            <div class="col col-20">
-                                <img class="user-avatar" ng-src="{{data.rant.user_avatar.i ? 'https://avatars.devrant.io/' + data.rant.user_avatar.i : 'img/icon.png'}}" />
-                            </div>
-                            <div class="col col-80">
-                                <div>
-                                    {{data.rant.user_username}}
+                        <a ng-href="#/profile/{{data.rant.user_id}}">
+                            <div class="row no-padding">
+                                <div class="col col-20">
+                                    <img class="user-avatar" ng-src="{{data.rant.user_avatar.i ? 'https://avatars.devrant.io/' + data.rant.user_avatar.i : 'img/icon.png'}}" />
                                 </div>
-                                <span class="user-score">
-                                    {{data.rant.user_score}}
-                                </span>
+                                <div class="col col-80">
+                                    <div>
+                                        {{data.rant.user_username}}
+                                    </div>
+                                    <span class="user-score">
+                                        {{data.rant.user_score}}
+                                    </span>
+                                </div>
                             </div>
-                        </div>
+                        </a>
 
                         <p>{{data.rant.text}}</p>
                         <img ng-if="data.rant.attached_image" ng-src="{{data.rant.attached_image.url}}" class="responsive-image-stretch" />
@@ -39,19 +41,21 @@
                         <div ng-include src="'templates/_vote.html'" ng-controller="VoteController" ng-init="init('comment', comment)"></div>
                         </div>
                         <div class="col col-70">
-                            <div class="row no-padding">
-                                <div class="col col-20">
-                                    <img class="user-avatar" ng-src="{{comment.user_avatar.i ? 'https://avatars.devrant.io/' + comment.user_avatar.i : 'img/icon.png'}}" />
-                                </div>
-                                <div class="col col-80">
-                                    <div>
-                                        {{comment.user_username}}
+                            <a ng-href="#/profile/{{comment.user_id}}">
+                                <div class="row no-padding">
+                                    <div class="col col-20">
+                                        <img class="user-avatar" ng-src="{{comment.user_avatar.i ? 'https://avatars.devrant.io/' + comment.user_avatar.i : 'img/icon.png'}}" />
                                     </div>
-                                    <span class="user-score">
-                                        {{data.rant.user_score}}
-                                    </span>
+                                    <div class="col col-80">
+                                        <div>
+                                            {{comment.user_username}}
+                                        </div>
+                                        <span class="user-score">
+                                            {{data.rant.user_score}}
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                             <p>
                                 {{comment.body}}
                             </p>

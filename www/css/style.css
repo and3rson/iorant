@@ -50,5 +50,31 @@
     color: #FFF;
     font-weight: bold;
     padding: 4px;
-    font-size: 12px;
+    font-size: 14px;
+}
+
+.user-score.top-left {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+}
+
+.avatar-header {
+    padding-top: 90%;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.profile-stats {
+    text-transform: uppercase;
+    font-weight: thin;
+    background: #444444;
+    color: #FFFFFF;
+    padding: 8px 0;
+}
+
+.profile-stats .big {
+    font-size: 24px;
+    padding: 4px 4px 8px;
 }

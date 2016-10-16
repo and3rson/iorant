@@ -70,6 +70,15 @@ angular.module('devrant.services', [])
         }
     };
 })
+.factory('Users', ($http, DevRantApi) => {
+    return {
+        getUser: (id, callback) => {
+            DevRantApi.request('GET', '/users/' + id, {}, (data) => {
+                callback(data);
+            })
+        }
+    }
+})
 .factory('Auth', ($http, $state, $localStorage, $rootScope, $ionicPopup, DevRantApi) => {
     DevRantApi.setAuthToken($localStorage.authToken);
     return {
@@ -96,6 +105,9 @@ angular.module('devrant.services', [])
         },
         getAuthToken: () => {
             return $localStorage.authToken;
+        },
+        getUserId: () => {
+            return $localStorage.authToken ? $localStorage.authToken.user_id : null;
         },
         assert: (callback) => {
             if ($localStorage.authToken) {

@@ -47,6 +47,7 @@
  -->
                 <ion-list>
                     <ion-item menu-close href="#/feed">Feed</ion-item>
+                    <ion-item menu-close ng-href="#/profile/{{data.user_id}}" ng-if="data.isAuthorized">My profile</ion-item>
                     <ion-item menu-close href="#/login" ng-if="!data.isAuthorized">Log in</ion-item>
                     <ion-item menu-close ng-click="logout()" ng-if="data.isAuthorized">Log out</ion-item>
                     <ion-item menu-close href="#/about">About</ion-item>

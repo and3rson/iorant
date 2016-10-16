@@ -2,13 +2,15 @@ angular.module('devrant.controllers', [])
 
 .controller('NavController', function($scope, $state, $rootScope, $ionicSideMenuDelegate, $ionicPopup, $ionicHistory, Auth) {
     $scope.data = {
-        isAuthorized: false
+        isAuthorized: false,
+        user_id: Auth.getUserId()
     };
     $scope.toggleLeft = function() {
         $ionicSideMenuDelegate.toggleLeft();
     };
     $rootScope.$on('auth.stateChanged', (authorized) => {
         $scope.data.isAuthorized = Auth.isAuthorized();
+        $scope.data.user_id = Auth.getUserId();
     });
     $scope.logout = function() {
         $ionicPopup.confirm({
@@ -78,7 +80,6 @@ angular.module('devrant.controllers', [])
     };
 })
 
-
 .controller('VoteController', function($scope, Auth, Rants) {
     $scope.voteObjectData = {};
     $scope.init = function(type, object) {
@@ -98,4 +99,23 @@ angular.module('devrant.controllers', [])
             })
         });
     };
-});
+})
+
+.controller('ProfileController', function($scope, $stateParams, Users) {
+    $scope.data = {
+        isLoading: true
+    };
+    $scope.update = () => {
+        Users.getUser($stateParams.id, (data) => {
+            $scope.data.isLoading = false;
+            $scope.data.profile = data.profile;
+            $scope.$broadcast('scroll.refreshComplete');
+        })
+    };
+    $scope.update();
+    $scope.refresh = () => {
+        $scope.update();
+    };
+})
+
+;

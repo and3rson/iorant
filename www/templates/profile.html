@@ -1,0 +1,70 @@
+<ion-view view-title="{{data.profile.username}}">
+    <ion-content>
+        <ion-refresher pulling-text="Pull to refresh" on-refresh="refresh()">
+        </ion-refresher>
+        <div class="padding" ng-if="data.isLoading">
+            <ion-spinner style="display: block; text-align: center"></ion-spinner>
+        </div>
+        <div ng-if="!data.isLoading">
+            <div class="avatar-header" style="background-image: url({{data.profile.avatar.i ? 'https://avatars.devrant.io/' + data.profile.avatar.i : 'img/icon.png'}})">
+                <div class="user-score top-left">{{data.profile.score}}</div>
+            </div>
+            <div class="row profile-stats">
+                <div class="col col-33" style="text-align: center">
+                    <div class="big">{{data.profile.content.counts.rants}}</div>
+                    <div>Rants</div>
+                </div>
+                <div class="col col-33" style="text-align: center">
+                    <div class="big">{{data.profile.content.counts.comments}}</div>
+                    <div>Comments</div>
+                </div>
+                <div class="col col-33" style="text-align: center">
+                    <div class="big">{{data.profile.content.counts.upvoted}}</div>
+                    <div>Upvotes</div>
+                </div>
+            </div>
+            <div class="list">
+                <div class="item" ng-if="data.profile.skills" style="padding: 5px 10px">
+                    <div class="row no-padding">
+                        <div class="col col-33">
+                            <b>Skills</b>
+                        </div>
+                        <div class="col col-66">
+                            {{data.profile.skills}}
+                        </div>
+                    </div>
+                </div>
+                <div class="item" ng-if="data.profile.location" style="padding: 5px 10px">
+                    <div class="row no-padding">
+                        <div class="col col-33">
+                            <b>Location</b>
+                        </div>
+                        <div class="col col-66">
+                            {{data.profile.location}}
+                        </div>
+                    </div>
+                </div>
+                <div class="item" ng-if="data.profile.website" style="padding: 5px 10px">
+                    <div class="row no-padding">
+                        <div class="col col-33">
+                            <b>Website</b>
+                        </div>
+                        <div class="col col-66">
+                            {{data.profile.website}}
+                        </div>
+                    </div>
+                </div>
+                <div class="item" ng-if="data.profile.github" style="padding: 5px 10px">
+                    <div class="row no-padding">
+                        <div class="col col-33">
+                            <b>Github</b>
+                        </div>
+                        <div class="col col-66">
+                            {{data.profile.github}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>
