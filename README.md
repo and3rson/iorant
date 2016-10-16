@@ -1,6 +1,6 @@
 # iorant
 
-Unofficial app for <devrant.io> (alpha state)
+Unofficial app for <https://devrant.io> (alpha state)
 
 # screenshots
 
@@ -17,7 +17,7 @@ Unofficial app for <devrant.io> (alpha state)
 
 # credits
 
-Thanks to <devrant.io> for such an amazing community.
+Thanks to <https://devrant.io> for such an amazing community.
 
 This app is brought to you by Andrew Dunai (<andrew@dun.ai>)
 
