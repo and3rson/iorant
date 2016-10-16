@@ -7,12 +7,9 @@
         </div>
         <ion-list>
             <ion-item class="item-icon-right item-text-wrap" ng-repeat="rant in data.rants" type="item-text-wrap" href="#/rants/{{rant.id}}">
-                <!-- <img ng-src="{{  }}"> -->
                 <div class="row">
                     <div class="col col-20 col-top" style="text-align: center">
-                        <a class="vote plus {{rant.vote_state == 1 ? 'voted' : ''}}" ng-click="vote(rant, rant.vote_state ? 0 : 1)">++</a>
-                        <div class="score">{{rant.score}}</div>
-                        <a class="vote minus {{rant.vote_state == -1 ? 'voted' : ''}}" ng-click="vote(rant, rant.vote_state ? 0 : -1)">--</a>
+                        <div ng-include src="'templates/_vote.html'" ng-controller="VoteController" ng-init="init('rant', rant)"></div>
                     </div>
                     <div class="col col col-top">
                         <div class="--padding">
@@ -21,12 +18,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- <i class="icon ion-chevron-right icon-accessory"></i> -->
-
-<!--                 <ion-option-button class="button-assertive" ng-click="remove(rant)">
-                    Delete
-                </ion-option-button>
- -->            </ion-item>
+            </ion-item>
         </ion-list>
     </ion-content>
 </ion-view>

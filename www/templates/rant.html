@@ -8,15 +8,13 @@
         <div class="--padding" ng-if="!data.isLoading">
             <div class="row">
                 <div class="col col-20 col-top" style="text-align: center">
-                    <a class="vote plus {{data.rant.vote_state == 1 ? 'voted' : ''}}" ng-click="vote(data.rant.vote_state ? 0 : 1)">++</a>
-                    <div class="score">{{data.rant.score}}</div>
-                    <a class="vote minus {{data.rant.vote_state == -1 ? 'voted' : ''}}" ng-click="vote(data.rant.vote_state ? 0 : -1)">--</a>
+                    <div ng-include src="'templates/_vote.html'" ng-controller="VoteController" ng-init="init('rant', data.rant)"></div>
                 </div>
                 <div class="col col col-top">
                     <div class="--padding">
                         <div class="row no-padding">
                             <div class="col col-20">
-                                <img class="user-avatar" ng-src="{{comment.user_avatar.i ? 'https://avatars.devrant.io/' + comment.user_avatar.i : 'img/icon.png'}}" />
+                                <img class="user-avatar" ng-src="{{data.rant.user_avatar.i ? 'https://avatars.devrant.io/' + data.rant.user_avatar.i : 'img/icon.png'}}" />
                             </div>
                             <div class="col col-80">
                                 <div>
@@ -38,9 +36,7 @@
                 <div class="item item-text-wrap" ng-repeat="comment in data.comments" style="padding-top: 0; padding-bottom: 0">
                     <div class="row">
                         <div class="col col-20 col-top col-offset-10" style="text-align: center">
-                            <a class="vote plus {{comment.vote_state == 1 ? 'voted' : ''}}" ng-click="voteComment(comment, comment.vote_state ? 0 : 1)">++</a>
-                            <div class="score">{{comment.score}}</div>
-                            <a class="vote minus {{comment.vote_state == -1 ? 'voted' : ''}}" ng-click="voteComment(comment, comment.vote_state ? 0 : -1)">--</a>
+                        <div ng-include src="'templates/_vote.html'" ng-controller="VoteController" ng-init="init('comment', comment)"></div>
                         </div>
                         <div class="col col-70">
                             <div class="row no-padding">

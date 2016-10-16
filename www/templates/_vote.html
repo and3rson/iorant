@@ -1,0 +1,3 @@
+<a class="vote plus {{voteObjectData.object.vote_state == 1 ? 'voted' : ''}}" ng-click="vote(voteObjectData.object.vote_state ? 0 : 1)">++</a>
+<div class="score">{{voteObjectData.object.score}}</div>
+<a class="vote minus {{voteObjectData.object.vote_state == -1 ? 'voted' : ''}}" ng-click="vote(voteObjectData.object.vote_state ? 0 : -1)">--</a>

@@ -39,19 +39,6 @@ angular.module('devrant.controllers', [])
             $scope.$broadcast('scroll.refreshComplete');
         });
     };
-    $scope.vote = (rant, score) => {
-        Auth.assert(() => {
-            Rants.voteRant(rant.id, score, (data) => {
-                $scope.data.rants.forEach((other, i) => {
-                    if (other.id == data.rant.id) {
-                        $scope.data.rants[i] = data.rant;
-                    }
-                })
-                // $scope.data.rants[0] = data.rant;
-                // console.log(data);
-            })
-        });
-    };
     $scope.update();
     $scope.refresh = () => {
         $scope.update();
@@ -85,26 +72,30 @@ angular.module('devrant.controllers', [])
             $scope.$broadcast('scroll.refreshComplete');
         });
     };
-    $scope.vote = (score) => {
-        Auth.assert(() => {
-            Rants.voteRant($stateParams.id, score, (data) => {
-                $scope.data.rant = data.rant;
-            })
-        });
-    };
-    $scope.voteComment = (comment, score) => {
-        Auth.assert(() => {
-            Rants.voteComment(comment.id, score, (data) => {
-                $scope.data.comments.forEach((other, i) => {
-                    if (other.id == data.comment.id) {
-                        $scope.data.comments[i] = data.comment;
-                    }
-                })
-            })
-        });
-    };
     $scope.update();
     $scope.refresh = () => {
         $scope.update();
     };
 })
+
+
+.controller('VoteController', function($scope, Auth, Rants) {
+    $scope.voteObjectData = {};
+    $scope.init = function(type, object) {
+        $scope.voteObjectData.type = type;
+        $scope.voteObjectData.object = object;
+        console.log(type, object);
+    }
+    $scope.vote = (score) => {
+        Auth.assert(() => {
+            if ($scope.voteObjectData.type == 'rant') {
+                method = Rants.voteRant;
+            } else if ($scope.voteObjectData.type == 'comment') {
+                method = Rants.voteComment;
+            }
+            method($scope.voteObjectData.object.id, score, (data) => {
+                $scope.voteObjectData.object = data[$scope.voteObjectData.type];
+            })
+        });
+    };
+});

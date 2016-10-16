@@ -113,13 +113,3 @@ angular.module('devrant.services', [])
         }
     }
 })
-// .factory('Vote', ($http, Auth) => {
-//     return {
-//         vote: (object, id) => {
-//             if (Auth.isAuthorized()) {
-
-//             }
-//         }
-//     }
-// })
-;
