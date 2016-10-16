@@ -19,7 +19,7 @@ Unofficial app for DevRant.io (alpha state)
 
 Thanks to devrant.io for such an amazing community.
 
-This app is brought to yoou by Andrew Dunai <andrew@dun.ai>
+This app is brought to you by Andrew Dunai <andrew@dun.ai>
 
 Any contributions & feedback are welcome!
 
